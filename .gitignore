@@ -12,6 +12,12 @@
 # Secrets
 **/application.properties
 
+# Node / React
+**/node_modules/
+**/dist/
+**/.env
+!**/.env.example
+
 # OS
 .DS_Store
 Thumbs.db

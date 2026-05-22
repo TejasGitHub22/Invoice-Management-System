@@ -1,9 +1,10 @@
 # Invoice Management System
 
-Full-stack **Invoice Management System** with a **Spring Boot REST API**, **MySQL** persistence, **Swagger/OpenAPI** docs, and a **Bootstrap + JavaScript** web frontend for customers, products, invoices, and payments.
+Full-stack **Invoice Management System** with a **Spring Boot REST API**, **MySQL** persistence, **Swagger/OpenAPI** docs, and a **React (Vite)** SPA for customers, products, invoices, and payments.
 
 ![Java](https://img.shields.io/badge/Java-17+-orange?style=flat-square)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.6-6DB33F?style=flat-square&logo=springboot&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?style=flat-square&logo=mysql&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
@@ -18,7 +19,7 @@ Full-stack **Invoice Management System** with a **Spring Boot REST API**, **MySQ
 | **Architecture** | Layered backend: Controller → Service → JPA Repository |
 | **API design** | REST endpoints for CRUD on customers & products; invoice creation & payments |
 | **Documentation** | SpringDoc OpenAPI — interactive Swagger UI |
-| **Frontend** | Multi-page HTML app using Fetch API against the backend |
+| **Frontend** | React SPA with React Router, Axios, and a modern dashboard UI |
 | **Data model** | Customers, products, invoice line items, payments with GST calculations |
 
 ---
@@ -52,8 +53,8 @@ Full-stack **Invoice Management System** with a **Spring Boot REST API**, **MySQ
 | Backend | Java 17+, Spring Boot 3.4.6, Spring Data JPA, Spring Web |
 | Database | MySQL 8 |
 | API docs | SpringDoc OpenAPI 2.8.7 |
-| Frontend | HTML5, CSS3, Bootstrap 5, JavaScript (Fetch API), jQuery |
-| Build | Maven |
+| Frontend | React 19, Vite, React Router, Axios |
+| Build | Maven (backend), npm (frontend) |
 
 ---
 
@@ -72,11 +73,9 @@ Invoice-Management-System/
 │       └── src/main/resources/
 │           └── application.properties.example
 ├── FrontEnd/
-│   └── InvoiceSystem/          # Static web UI
-│       ├── Customer.html
-│       ├── Product.html
-│       ├── NewInvoice.html
-│       └── AllInvoices.html
+│   ├── invoice-ui/             # React SPA (primary UI)
+│   │   └── src/pages/          # Dashboard, Customers, Products, Invoices
+│   └── InvoiceSystem/          # Legacy HTML UI (optional)
 └── README.md
 ```
 
@@ -128,16 +127,24 @@ mvn spring-boot:run
 
 Backend runs at **http://localhost:9001**
 
-### 5. Open the frontend
+### 5. Run the React frontend
 
-Open these files in your browser (or use Live Server in VS Code):
+```bash
+cd FrontEnd/invoice-ui
+npm install
+cp .env.example .env
+npm run dev
+```
 
-- `FrontEnd/InvoiceSystem/Customer.html`
-- `FrontEnd/InvoiceSystem/Product.html`
-- `FrontEnd/InvoiceSystem/NewInvoice.html`
-- `FrontEnd/InvoiceSystem/AllInvoices.html`
+Open **http://localhost:5173**
 
-The UI calls `http://localhost:9001/api/...`.
+The UI calls the backend at `http://localhost:9001` (configurable via `VITE_API_URL`).
+
+<details>
+<summary>Legacy HTML UI (optional)</summary>
+
+Open `FrontEnd/InvoiceSystem/*.html` files directly in the browser while the backend is running.
+</details>
 
 ---
 
@@ -177,15 +184,16 @@ Add images under `docs/screenshots/` and link them here before sharing on your r
 ## Detailed docs
 
 - [Backend README](BackEnd/InvoiceSystem/README.md)
-- [Frontend README](FrontEnd/InvoiceSystem/README_FRONTEND.md)
+- [React frontend README](FrontEnd/invoice-ui/README.md)
+- [Legacy HTML frontend README](FrontEnd/InvoiceSystem/README_FRONTEND.md)
 
 ---
 
 ## Roadmap
 
-- [ ] Environment-based API base URL in frontend (no hardcoded `localhost`)
+- [x] React SPA frontend with React Router
 - [ ] Spring Security + JWT authentication
-- [ ] Single-page app (React) or serve frontend from Spring Boot `static/`
+- [ ] Serve React build from Spring Boot `static/` for single-port deploy
 - [ ] Unit & integration tests
 - [ ] Docker Compose for MySQL + app
 
