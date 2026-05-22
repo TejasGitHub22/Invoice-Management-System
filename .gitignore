@@ -1,0 +1,17 @@
+# Build
+**/target/
+**/.classpath
+**/.project
+**/.settings/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Secrets
+**/application.properties
+
+# OS
+.DS_Store
+Thumbs.db

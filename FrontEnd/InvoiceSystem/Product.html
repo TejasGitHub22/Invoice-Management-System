@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+ <style>
+        a{
+            text-decoration:none;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="list-group">
+                <li class="list-group-item"><a href="#">Dashboard</a></li>
+                <li class="list-group-item"><a href="AllInvoices.html">Invoices</a></li>
+                <li class="list-group-item"><a href="Customer.html">Customer</a></li>
+                <li class="list-group-item"><a href="Product.html">Product</a></li>
+                 <li class="list-group-item"><a href="NewInvoice.html">NewInvoice</a></li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+              
+
+
+              <table>
+                <tr>
+                    <td>ProductID:</td>
+                    <td><input type="text" id="product_id"></td>
+                </tr>
+
+                <tr>
+                    <td>ProductName:</td>
+                    <td><input type="text" id="product_name"></td>
+                </tr>
+
+                <tr>
+                    <td>Rate:</td>
+                    <td><input type="text" id="product_rate"></td>
+                </tr>
+
+                <tr>
+                    <td>GST:</td>
+                    <td><input type="text" id="product_gst"></td>
+                </tr>
+
+                <tr>
+                    <td>Stock:</td>
+                    <td><input type="text" id="product_stock"></td>
+                </tr>
+
+              </table>
+
+              
+            <tr>
+               <td> <input type="button" value="Submit" onclick="Add()" id="btnsubmit"></td>
+            </tr>
+
+            <hr>
+
+             <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ProductID</th>
+                <th>Product Name</th>
+                <th>Rate</th>
+                <th>GST</th>
+                <th>Stock</th>
+            </tr>
+            
+        </thead>
+        
+        <tbody id="tbldata"></tbody>
+    </table>
+
+
+           </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    const FetchProducts=async()=>{
+            const repsonse=await fetch("http://localhost:9001/api/product")
+            const products=await repsonse.json();
+            console.log(products);
+            var data="";
+            products.forEach(function(d,k){
+                 data+="<tr><td>"+(k+1)+"</td><td>"+d.product_name+"</td><td>"+d.product_rate+"</td><td>"+d.product_gst+"</td><td>"+d.product_stock+"</td></tr>";
+            })
+            document.getElementById("tbldata").innerHTML=data;
+        }
+        FetchProducts();
+
+        const Add=async()=>{
+
+            var n=document.getElementById("product_name").value;
+            var r=document.getElementById("product_rate").value;
+            var g=document.getElementById("product_gst").value;
+            var s=document.getElementById("product_stock").value;
+            
+
+            var cu={
+                "product_name":n,
+                "product_rate":r,
+                "product_gst":g,
+                "product_stock":s,
+                
+            };
+
+            const response= await fetch("http://localhost:9001/api/product",{
+                method:"post",
+                body:JSON.stringify(cu),
+                headers:{
+                    'content-type':'application/json'
+                }
+
+            });
+            
+
+            const stud=await response.text();
+            alert("Product Added Successfully");
+            FetchProducts();
+        }
+
+</script>
+</html>
